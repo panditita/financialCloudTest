@@ -13,9 +13,14 @@ export class HomeComponent implements OnInit {
 
 	constructor(private _api: ApiService) {}
 	ngOnInit() {
-		this._api.getPokemonNames().subscribe((pokemons: Pokemon[]) => {
-			this.pokemons = pokemons;
-			console.log(this.pokemons);
+		this._api.getPokemons().subscribe((data: Pokemon[]) => {
+			this.pokemons = data;
+			this.pokemons.forEach(pokemon=>{
+				this._api.getPokemonData(pokemon.url).subscribe(data=>{
+					pokemon.id =data.id;
+					pokemon.imageUrl = data.sprites.front_default;
+				})
+			})
 		});
 	}
 }

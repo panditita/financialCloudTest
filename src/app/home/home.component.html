@@ -1,8 +1,8 @@
 <h1> Pokemons </h1>
 
 <ul>
-    <li *ngFor="let pokemon of pokemonsObservable | async">
+    <li *ngFor="let pokemon of pokemons">
         <p class="name"> {{ pokemon.name }} </p>
-        <p class= "sprites"> {{ pokemon.url.sprites }} </p>
+        <img class= "sprites" src= "{{ pokemon.imageUrl }}"/>
     </li>
 </ul>

@@ -1,16 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class ApiService {
 	baseUrl: string = 'https://pokeapi.co/api/v2/pokemon';
-	//imageUrl: string = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/';
 
 	constructor(private api: HttpClient) {}
 
-	getPokemonNames() {
-		return this.api.get(this.baseUrl);
+	getPokemons() {
+		return this.api.get(this.baseUrl).pipe(map((data: any) => data.results));
+	}
+
+	getPokemonData(pokemonUrl: string) {
+		return this.api.get(pokemonUrl);
 	}
 }
