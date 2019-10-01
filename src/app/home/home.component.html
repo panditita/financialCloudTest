@@ -1,7 +1,8 @@
 <h1> Pokemons </h1>
 
-<ul *ngIf="pokemons">
-    <li *ngFor="let pokemon of pokemons">
-        <p class="name">{{ pokemon.name }}</p>
+<ul>
+    <li *ngFor="let pokemon of pokemonsObservable | async">
+        <p class="name"> {{ pokemon.name }} </p>
+        <p class= "sprites"> {{ pokemon.url.sprites }} </p>
     </li>
 </ul>

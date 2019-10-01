@@ -5,9 +5,12 @@ import { HttpClient } from '@angular/common/http';
 	providedIn: 'root'
 })
 export class ApiService {
+	baseUrl: string = 'https://pokeapi.co/api/v2/pokemon';
+	//imageUrl: string = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/';
+
 	constructor(private api: HttpClient) {}
 
-	getPokemons() {
-		return this.api.get('https://pokeapi.co/api/v2/pokemon');
+	getPokemonNames() {
+		return this.api.get(this.baseUrl);
 	}
 }
