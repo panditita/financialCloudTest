@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { HttpClientModule } from '@angular/common/http';
+import { PokedexService } from './pokedex.service';
+import { ApiService } from './api.service';
 
 const appRoutes: Routes = [ { path: ' ', component: HomeComponent }, { path: 'about', component: AboutComponent } ];
 
@@ -18,7 +20,15 @@ const appRoutes: Routes = [ { path: ' ', component: HomeComponent }, { path: 'ab
 		RouterModule.forRoot(appRoutes, { enableTracing: true }),
 		HttpClientModule
 	],
-	providers: [],
+	providers: [{
+		provide: 'api',
+		useClass: ApiService
+	}, {
+		provide: 'pokedex',
+		useClass: PokedexService
+	}   ],
+
 	bootstrap: [ AppComponent ]
 })
-export class AppModule {}
+export class AppModule {
+}
