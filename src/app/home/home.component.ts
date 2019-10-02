@@ -10,10 +10,11 @@ import { Pokemon } from '../pokemons';
 	styleUrls: [ './home.component.scss' ]
 })
 export class HomeComponent implements OnInit {
-	public pokemons: Pokemon[];
-	public newPokemons: Pokemon[];
-	public filteredPokemons: Pokemon[];
-	private allAbilities: string[] = [];
+	private pokemons: Pokemon[];
+	private newPokemons: Pokemon[];
+	private filteredPokemons: Pokemon[];
+	private allAbilities: string[];
+	abilityFilter: string = '';
 
 	isLoading: boolean = false;
 
@@ -24,7 +25,7 @@ export class HomeComponent implements OnInit {
 		this.pokemons = [];
 		this.newPokemons = [];
 		this.filteredPokemons = [];
-		this.allAbilities = [];
+		this.allAbilities = [ '' ];
 		this.fetchNextSetOfPokemons();
 	}
 
@@ -47,38 +48,42 @@ export class HomeComponent implements OnInit {
 	fetchNextSetOfPokemons() {
 		{
 			this.isLoading = true;
-			this._api.getPokemons(this.pokemons.length, 30).subscribe((data: Pokemon[]) => {
+			this._api.getPokemons(this.pokemons.length, 28).subscribe((data: Pokemon[]) => {
 				this.newPokemons = data;
 				this.newPokemons.forEach((pokemon) => {
 					this._api.getPokemonData(pokemon.url).subscribe((data) => {
 						pokemon.id = data.id;
 						pokemon.imageUrl = data.sprites.front_default;
 						pokemon.abilities = this.getAbilities(data.abilities);
-						console.log('inside new pokemons ' + pokemon.abilities);
+						pokemon.abilities.forEach((ability) => {
+							if (this.allAbilities.indexOf(ability) === -1) {
+								this.allAbilities.push(ability);
+							}
+						});
 					});
 				});
-
 				this.pokemons = this.pokemons.concat(this.newPokemons);
-				console.log('inside get pokemons ' + this.pokemons.name[0]);
-
 				this.filteredPokemons = this.pokemons;
-				this.allAbilities = this.pokemons.abilities;
 
 				this.isLoading = false;
 				this.error = false;
 			});
 			catchError((err) => err.mesage);
 		}
-		console.log('are you there? ' + this.allAbilities[0] + '!!');
 	}
 
 	onNameEnter(value: string) {
 		this.filteredPokemons = this.pokemons.filter((pokemon) => pokemon.name.startsWith(value));
-
-		//	;
 	}
 
-	pickAbilities(value: any) {
-		this.allAbilities = this.pokemons.filter((pokemon) => pokemon.abilities.indexOf(value) > -1);
+	filterByAbility() {
+		console.log('hey filter ' + this.abilityFilter);
+		if (this.abilityFilter != '') {
+			this.filteredPokemons = this.pokemons.filter(
+				(pokemon) => pokemon.abilities.indexOf(this.abilityFilter) > -1
+			);
+		} else {
+			this.filteredPokemons = this.pokemons;
+		}
 	}
 }

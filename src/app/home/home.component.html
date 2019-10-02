@@ -1,24 +1,35 @@
-<h1> Pokemons </h1>
 
-<button class="load-button" (click)="fetchNextSetOfPokemons()" [disabled]="isLoading">
-    <span *ngIf="!error">
-      <span *ngIf="isLoading">Loading...</span>
-      <span *ngIf="!isLoading">Load more</span>
-    </span>
-    <span *ngIf="error">
-      Loading failed
-    </span>
-  </button>
+<div class="filters">
+        <button class="load-button" (click)="fetchNextSetOfPokemons()" [disabled]="isLoading">
+                <span *ngIf="!error">
+                    <span *ngIf="isLoading">Loading...</span>
+                    <span *ngIf="!isLoading">Load more</span>
+                </span>
+                <span *ngIf="error">
+                    Loading failed
+                </span>
+            </button>
+            
+            <span *ngIf="!error"> </span>
+            
+            <h3>filter by name</h3>
+            <input #box (keyup.enter)="onNameEnter(box.value)">
+            
+            <h3>filter by ability</h3>
+            <select [(ngModel)]="abilityFilter" (change)="filterByAbility()">
+                <option *ngFor="let ability of allAbilities">
+                    {{ability}}
+                </option>
+            </select>
 
-  <p>filter by name</p>
-  <span *ngIf="!error">
-        <input #box (keyup.enter)="onNameEnter(box.value)">
-
+</div>
 
 <ul>
     <li *ngFor="let pokemon of filteredPokemons">
         <p class="name"> {{ pokemon.name }} </p>
-        <img class= "sprites" src= "{{ pokemon.imageUrl }}"/>
+        <img class="sprites" src="{{ pokemon.imageUrl }}" />
+        <p class="abilities" *ngFor="let ability of pokemon.abilities">
+            {{ ability }}
+        </p>
     </li>
 </ul>
-

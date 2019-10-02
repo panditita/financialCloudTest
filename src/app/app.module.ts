@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { ApiService } from './api.service';
+import { FormsModule } from '@angular/forms';
 
 const appRoutes: Routes = [ { path: ' ', component: HomeComponent } ];
 
@@ -16,7 +17,8 @@ const appRoutes: Routes = [ { path: ' ', component: HomeComponent } ];
 		BrowserModule,
 		AppRoutingModule,
 		RouterModule.forRoot(appRoutes, { enableTracing: true }),
-		HttpClientModule
+		HttpClientModule,
+		FormsModule
 	],
 	providers: [ ApiService ],
 

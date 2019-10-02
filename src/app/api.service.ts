@@ -13,7 +13,7 @@ export class ApiService {
 	getPokemons(offset: number, limit: number) {
 		return this.api.get(`${this.baseUrl}?offset=${offset}&limit=${limit}`).pipe(
 			map((data: any) => {
-				console.log(data.results);
+				//console.log(data.results);
 				return data.results;
 			})
 		);
