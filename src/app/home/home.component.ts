@@ -12,8 +12,8 @@ import { Pokemon } from '../pokemons';
 export class HomeComponent implements OnInit {
 	private pokemons: Pokemon[];
 	private newPokemons: Pokemon[];
-	private filteredPokemons: Pokemon[];
-	private allAbilities: string[];
+	public filteredPokemons: Pokemon[];
+	public allAbilities: string[];
 	abilityFilter: string = '';
 
 	isLoading: boolean = false;
@@ -52,8 +52,11 @@ export class HomeComponent implements OnInit {
 				this.newPokemons = data;
 				this.newPokemons.forEach((pokemon) => {
 					this._api.getPokemonData(pokemon.url).subscribe((data) => {
+						//@ts-ignore
 						pokemon.id = data.id;
+						//@ts-ignore
 						pokemon.imageUrl = data.sprites.front_default;
+						//@ts-ignore
 						pokemon.abilities = this.getAbilities(data.abilities);
 						pokemon.abilities.forEach((ability) => {
 							if (this.allAbilities.indexOf(ability) === -1) {
