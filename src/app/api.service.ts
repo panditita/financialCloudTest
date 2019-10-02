@@ -11,7 +11,9 @@ export class ApiService {
 	constructor(private api: HttpClient) {}
 
 	getPokemons(offset: number, limit: number) {
-		return this.api.get(`${this.baseUrl}?offset=${offset}&limit=${limit}`).pipe(map((data: any) => data.results));
+		return this.api
+			.get(`${this.baseUrl}?offset=${offset}&limit=${limit}`)
+			.pipe(map((data: any) => console.log(data.results)));
 	}
 
 	getPokemonData(pokemonUrl: string) {

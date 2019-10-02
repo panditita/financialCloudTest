@@ -10,7 +10,7 @@ import { Pokemon } from '../pokemons';
 	styleUrls: [ './home.component.scss' ]
 })
 export class HomeComponent implements OnInit {
-	pokemons: Pokemon[];
+	public pokemons: Pokemon[];
 
 	isLoading: boolean = false;
 
@@ -24,17 +24,16 @@ export class HomeComponent implements OnInit {
 	loadMore() {
 		{
 			this.isLoading = true;
-			console.log('WTF 2 ' + this.pokemons);
 
-			this._api.getPokemons(this.pokemons.length, 50).subscribe((data: Pokemon[]) => {
-				this.pokemons = data;
-				console.log('WTF 3' + this.pokemons);
-				this.pokemons.forEach((pokemon) => {
+			this._api.getPokemons(this.pokemons.length, 50).subscribe((data: any[]) => {
+				//this.pokemons = data;
+				console.log('WTF 3' + data[0]);
+				data.forEach((pokemon) => {
 					this._api.getPokemonData(pokemon.url).subscribe((data) => {
 						pokemon.id = data.id;
 						pokemon.imageUrl = data.sprites.front_default;
 					});
-					this.pokemons = this.pokemons.concat(pokemon);
+					//	this.pokemons = this.pokemons.concat(pokemon);
 					this.isLoading = false;
 					this.error = false;
 				});
