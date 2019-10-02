@@ -1,6 +1,6 @@
 <h1> Pokemons </h1>
 
-<button class="load-button" (click)="fetchNextSetOfPokemons()" [disabled]="disableLoading()">
+<button class="load-button" (click)="fetchNextSetOfPokemons()" [disabled]="isLoading">
     <span *ngIf="!error">
       <span *ngIf="isLoading">Loading...</span>
       <span *ngIf="!isLoading">Load more</span>

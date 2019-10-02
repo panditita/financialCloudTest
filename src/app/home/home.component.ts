@@ -13,6 +13,7 @@ export class HomeComponent implements OnInit {
 	public pokemons: Pokemon[];
 	public newPokemons: Pokemon[];
 	public filteredPokemons: Pokemon[];
+	private allAbilities: string[] = [];
 
 	isLoading: boolean = false;
 
@@ -23,11 +24,8 @@ export class HomeComponent implements OnInit {
 		this.pokemons = [];
 		this.newPokemons = [];
 		this.filteredPokemons = [];
+		this.allAbilities = [];
 		this.fetchNextSetOfPokemons();
-	}
-
-	filterByAbilities() {
-		return this.pokemons;
 	}
 
 	disableLoading() {
@@ -56,24 +54,31 @@ export class HomeComponent implements OnInit {
 						pokemon.id = data.id;
 						pokemon.imageUrl = data.sprites.front_default;
 						pokemon.abilities = this.getAbilities(data.abilities);
-						//console.log('abilities ' + pokemon.abilities);
+						console.log('inside new pokemons ' + pokemon.abilities);
 					});
 				});
+
 				this.pokemons = this.pokemons.concat(this.newPokemons);
+				console.log('inside get pokemons ' + this.pokemons.name[0]);
+
 				this.filteredPokemons = this.pokemons;
-				console.log('how many times i am here' + this.pokemons.length);
+				this.allAbilities = this.pokemons.abilities;
+
 				this.isLoading = false;
 				this.error = false;
 			});
 			catchError((err) => err.mesage);
 		}
+		console.log('are you there? ' + this.allAbilities[0] + '!!');
 	}
 
 	onNameEnter(value: string) {
-		console.log(this.pokemons.length);
 		this.filteredPokemons = this.pokemons.filter((pokemon) => pokemon.name.startsWith(value));
-		console.log(this.filteredPokemons.length);
 
-		//	this.filteredPokemons = this.pokemons.filter((pokemon) => pokemon.abilities.indexOf(value)> -1);
+		//	;
+	}
+
+	pickAbilities(value: any) {
+		this.allAbilities = this.pokemons.filter((pokemon) => pokemon.abilities.indexOf(value) > -1);
 	}
 }
