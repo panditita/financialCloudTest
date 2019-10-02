@@ -11,6 +11,8 @@ import { Pokemon } from '../pokemons';
 })
 export class HomeComponent implements OnInit {
 	public pokemons: Pokemon[];
+	public newPokemons: Pokemon[];
+	public filteredPokemons: Pokemon[];
 
 	isLoading: boolean = false;
 
@@ -18,26 +20,60 @@ export class HomeComponent implements OnInit {
 
 	constructor(private _api: ApiService) {}
 	ngOnInit() {
-		this.loadMore();
+		this.pokemons = [];
+		this.newPokemons = [];
+		this.filteredPokemons = [];
+		this.fetchNextSetOfPokemons();
 	}
 
-	loadMore() {
+	filterByAbilities() {
+		return this.pokemons;
+	}
+
+	disableLoading() {
+		if (this.pokemons.length > 964 && this.pokemons.length === this.newPokemons.length) {
+			return console.log('Finished loading');
+		}
+	}
+
+	getAbilities(abilitiesArray: any[]): string[] {
+		let abilities: string[] = [];
+		if (abilitiesArray.length > 0) {
+			abilitiesArray.forEach((ability) => {
+				abilities.push(ability.ability.name);
+			});
+		}
+		return abilities;
+	}
+
+	fetchNextSetOfPokemons() {
 		{
 			this.isLoading = true;
-
-			this._api.getPokemons(this.pokemons.length, 50).subscribe((data: any[]) => {
-				//this.pokemons = data;
-				console.log('WTF 3' + data[0]);
-				data.forEach((pokemon) => {
+			this._api.getPokemons(this.pokemons.length, 30).subscribe((data: Pokemon[]) => {
+				this.newPokemons = data;
+				this.newPokemons.forEach((pokemon) => {
 					this._api.getPokemonData(pokemon.url).subscribe((data) => {
 						pokemon.id = data.id;
 						pokemon.imageUrl = data.sprites.front_default;
+						pokemon.abilities = this.getAbilities(data.abilities);
+						//console.log('abilities ' + pokemon.abilities);
 					});
-					//	this.pokemons = this.pokemons.concat(pokemon);
-					this.isLoading = false;
-					this.error = false;
 				});
+				this.pokemons = this.pokemons.concat(this.newPokemons);
+				this.filteredPokemons = this.pokemons;
+				console.log('how many times i am here' + this.pokemons.length);
+				this.isLoading = false;
+				this.error = false;
 			});
+			catchError((err) => err.mesage);
 		}
+	}
+
+	onNameEnter(value: string) {
+		console.log(this.pokemons.length);
+		this.filteredPokemons = this.pokemons.filter((pokemon) => pokemon.name.startsWith(value));
+		console.log(this.filteredPokemons.length);
+
+		//	this.filteredPokemons = this.pokemons.filter((pokemon) => pokemon.abilities.indexOf(value)> -1);
 	}
 }

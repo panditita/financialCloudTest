@@ -1,8 +1,9 @@
 export class Pokemon {
 	id: number;
 	imageUrl: string;
-	name:String;
+	name: String;
 	url: string;
+	abilities: string[];
 
 	constructor() {}
 }
