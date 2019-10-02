@@ -10,8 +10,8 @@ export class ApiService {
 
 	constructor(private api: HttpClient) {}
 
-	getPokemons() {
-		return this.api.get(this.baseUrl).pipe(map((data: any) => data.results));
+	getPokemons(offset: number, limit: number) {
+		return this.api.get(`${this.baseUrl}?offset=${offset}&limit=${limit}`).pipe(map((data: any) => data.results));
 	}
 
 	getPokemonData(pokemonUrl: string) {
