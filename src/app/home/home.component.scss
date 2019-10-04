@@ -12,7 +12,8 @@ ul {
 		margin-bottom: 1em;
 		display: flex;
 		flex-direction: column;
-		width: 10%;
+		width: 36%;
+		align-items: center;
 
 		p {
 			margin: 0;
@@ -38,19 +39,33 @@ ul {
 	color: #558494;
 	font-weight: bold;
 	font-size: 14px;
-
 	button,
 	select {
-		height: 30px;
+		height: 35px;
 		margin: 1rem;
+		border: 1px solid lightgrey;
+		width: 150px;
 	}
 	input {
-		height: 20px;
+		height: 35px;
 		margin: 1rem;
+		border: 1px solid lightgrey;
 	}
 	button {
 		color: #558494;
 		font-weight: bold;
 		font-size: 14px;
+		background: lightgray;
+	}
+}
+@media only screen and (min-width: 1024px) {
+	li {
+		width: 10% !important;
+	}
+}
+
+@media only screen and (min-width: 500px) and (max-width: 1024px) {
+	li {
+		width: 18% !important;
 	}
 }
