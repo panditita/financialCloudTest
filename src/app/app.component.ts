@@ -6,5 +6,5 @@ import { Component, Inject } from '@angular/core';
 	styleUrls: [ './app.component.scss' ]
 })
 export class AppComponent {
-	title = 'financialCloudTest';
+	title = 'Simple Pokedex';
 }
